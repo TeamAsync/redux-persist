@@ -54,7 +54,7 @@ export default function createPersistoid(config: PersistConfig<any>): Persistoid
     })
 
     // start the time iterator if not running (read: throttle)
-    if (timeIterator === null) {
+    if (timeIterator === null && keysToProcess.length !== 0) {
       timeIterator = setInterval(processNextKey, throttle)
     }
 
@@ -62,11 +62,6 @@ export default function createPersistoid(config: PersistConfig<any>): Persistoid
   }
 
   function processNextKey() {
-    if (keysToProcess.length === 0) {
-      if (timeIterator) clearInterval(timeIterator)
-      timeIterator = null
-      return
-    }
 
     const key: any = keysToProcess.shift()
     if (key === undefined) {
